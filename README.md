@@ -26,12 +26,12 @@ Start the server
 ```
 
 
-* Note, that all database records is clear. 
-You need to register admin, boss and regular users by yourself
+* Note, that all database records is clear.
+  You need to register admin, boss and regular users by yourself
 
 
-* The user hierarchy starts with the administrator. 
-That is, the boss of the first registered boss must be the administrator's nickname
+* The user hierarchy starts with the administrator.
+  That is, the boss of the first registered boss must be the administrator's nickname
 
 
 ## API Reference
@@ -57,7 +57,7 @@ POST /users/register
 
 - administrator (strictly one)
 - regular
-- boss - user automatically becomes a boss when the subordinate appears
+- boss - user (regular) automatically becomes a boss when the subordinate appears
 
 *Example Request*
 
@@ -70,7 +70,7 @@ POST /users/register
 {
 "name": "johnsmith",
 "password": "password123",
-"role": "employee",
+"role": "regular",
 "boss": "bossname"
 }
 ````
@@ -78,13 +78,8 @@ POST /users/register
 *Example Response*:
 
 {
-"message": "Користувач зареєстрований"
+"message": "User successfully registered"
 }
-
-
-### User Authentication
-
-Endpoint for user authentication.
 
 
 ### User Authentication
@@ -102,7 +97,7 @@ POST /users/authenticate
 | `name`     | string | Yes      | User's name     |
 | `password` | string | Yes      | User's password |
 
-*Example Request* 
+*Example Request*
 
 ```http
 POST /users/authenticate
@@ -152,12 +147,13 @@ Authorization: Bearer <token>
 "users": [
     {
       "name": "johnsmith",
-      "role": "employee",
+      "role": "boss",
       "boss": "bossname"
     },
     {
-      "name": "janedoe",
-      "role": "administrator"
+      "name": "johndeere",
+      "role": "regular",
+      "boss": "johnsmith"
     }
   ]
 }
@@ -165,7 +161,7 @@ Authorization: Bearer <token>
 
 ### Change User's Boss
 
-Change the boss of a user (only accessible by a boss).
+Change the boss of a user (only accessible by boss/administrator).
 
 ```http
 PATCH /users/:userId/boss
@@ -206,7 +202,7 @@ Authorization: Bearer **<token>**
 *Example Response*
 
 {
-"message": "Боса користувача змінено успішно"
+"message": "Boss successfully changed"
 }
 
 
@@ -214,4 +210,3 @@ Authorization: Bearer **<token>**
 ## Author
 
 - [Artem Balanovskyi](https://www.linkedin.com/in/artem-balanovskyi-6547781a3) 
-

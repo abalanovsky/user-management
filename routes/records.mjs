@@ -131,7 +131,7 @@ router.patch('/users/:userId/boss', async (req, res) => {
         const decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
         const { role, name: bossName } = decoded;
 
-        if (role !== 'boss') {
+        if (role !== 'boss' || role !== 'administrator') {
             return res.status(403).json({ error: 'You don`t have permission for this action' });
         }
 
